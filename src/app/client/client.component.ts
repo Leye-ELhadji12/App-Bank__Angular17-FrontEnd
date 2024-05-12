@@ -2,14 +2,16 @@ import {Component, inject} from '@angular/core';
 import {CustomerService} from "./customer.service";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CommonModule} from "@angular/common";
-import {Customer} from "../model/models";
+import {Customer} from "../model/Customer";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-client',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    CommonModule
+    CommonModule,
+    RouterLink
   ],
   templateUrl: './client.component.html',
   styleUrl: './client.component.sass'
@@ -49,6 +51,7 @@ export class ClientComponent {
   deleteCustomer(customer: Customer) {
     this.customerService$.deleteCustomer(customer.id).subscribe({
         next: (response) => {
+          alert("Voullez-vous vraiment supprimer");
           this.searchCustomers();
         }, error: err => {
           console.log(err);
@@ -56,7 +59,7 @@ export class ClientComponent {
     });
   }
 
-  selectedCustomer(customer$: Customer) {
-
+  onSelectedCustomer(id: number) {
+    this.customerService$.onSelectedCustomer(id);
   }
 }

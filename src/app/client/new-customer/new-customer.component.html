@@ -6,6 +6,11 @@
         <div class="mb-3">
           <label class="form-label">Nom</label>
           <input type="text" formControlName="name" class="form-control" />
+          @if (newCustomer.errors && newCustomer.controls['name'].errors!['required'] ||
+          newCustomer.controls['name'].invalid && newCustomer.controls['name'].touched
+          || newCustomer.controls['name'].dirty){
+            <span>Nom est obligatoire</span>
+          }
         </div>
         <div class="mb-3">
           <label class="form-label">Email</label>

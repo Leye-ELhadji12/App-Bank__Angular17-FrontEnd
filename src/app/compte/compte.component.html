@@ -1,1 +1,51 @@
-<p>compte works!</p>
+<div class="container mt-2">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header">Comptes</div>
+        <div class="card-body">
+          <div class="row">
+            <form class="col-md-7" [formGroup]="formAccount" >
+              <div class="input-group">
+                <label class="input-group-text">Identifiant : </label>
+                <input type="text" formControlName="accountId" class="form-control"/>
+                <button class="btn btn-info">
+                  <i class="bi bi-search"></i>
+                </button>
+              </div>
+            </form>
+            @if (accountHistories()) {
+              <ng-container>
+                <div class="mb-3">
+                  <table class="table">
+                    <thead>
+                      <th>Id</th>
+                      <th>Date</th>
+                      <th>Type</th>
+                      <th>Amount</th>
+                      <th>Description</th>
+                    </thead>
+                    <tbody>
+                      @for (operation of accountHistories(); track operation.balance) {
+                        <tr>
+                          <td>{{operation.id}}</td>
+                          <td>{{operation.balance}}</td>
+<!--                          <td>{{operation.}}</td>-->
+                          <td></td>
+                          <td></td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </ng-container>
+            } @else {
+              <p>Rien</p>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4"></div>
+  </div>
+</div>

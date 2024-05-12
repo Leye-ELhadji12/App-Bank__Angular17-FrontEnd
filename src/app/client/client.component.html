@@ -19,7 +19,7 @@
           <button class="btn" (click)="toggleValidation()" ><i class="bi bi-search"></i></button>
         </div>
       </form>
-      @if (customers$().length) {
+      @if (customers$()) {
         <table class="table table-borderless">
           <thead>
             <tr>
@@ -37,7 +37,7 @@
                   <td>{{ customer$.name }}</td>
                   <td>{{ customer$.email }}</td>
                   <td>
-                    <button (click)="selectedCustomer(customer$)" class="btn eye me-2"><i class="bi bi-eye"></i></button>
+                    <button (click)="onSelectedCustomer(customer$.id)" routerLink="/list-account" class="btn eye me-2"><i class="bi bi-eye">Comptes</i></button>
                     <button (click)="deleteCustomer(customer$)" class="btn trash"><i class="bi bi-trash2"></i></button>
                   </td>
                 </tr>

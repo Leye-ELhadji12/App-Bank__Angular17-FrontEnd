@@ -1,6 +1,6 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Customer} from "../model/models";
+import {Customer} from "../model/Customer";
 import {catchError, of, tap} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
@@ -10,19 +10,20 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 export class CustomerService {
 
   http = inject(HttpClient);
-  private customersUrl = 'http://localhost:8086/';
-  customers$ = signal<Customer[]>([]);
+  APIUrl = 'http://localhost:8086/';
+  readonly customers$ = signal<Customer[]>([]);
+  selectedCustomer = signal(0);
 
   constructor() { }
 
-  subscribe$ = this.http.get<Customer[]>(this.customersUrl+"customers").pipe(
+  subscribe$ = this.http.get<Customer[]>(this.APIUrl+"customers").pipe(
     tap(data => this.customers$.set(data)),
     takeUntilDestroyed(),
     catchError(() => of([] as Customer[]))
   ).subscribe();
 
   searchCustomers(keyword: String) {
-    this.http.get<Customer[]>(this.customersUrl+"customers/search?word="+keyword).pipe(
+    this.http.get<Customer[]>(this.APIUrl+"customers/search?word="+keyword).pipe(
       tap(data => this.customers$.set(data)),
       catchError(() => of([] as Customer[]))
     ).subscribe();
@@ -30,11 +31,15 @@ export class CustomerService {
   }
 
   saveCustomer(customer: Customer) {
-    return this.http.post<Customer>(this.customersUrl+"customers", customer);
+    return this.http.post<Customer>(this.APIUrl+"customers", customer);
   }
 
   deleteCustomer(id: number) {
-    return this.http.delete(this.customersUrl+"customer/"+id);
+    return this.http.delete(this.APIUrl+"customer/"+id);
   }
 
+  onSelectedCustomer(customerId: any){
+    this.selectedCustomer.set(customerId);
+    console.log(this.selectedCustomer());
+  }
 }

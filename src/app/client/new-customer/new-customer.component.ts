@@ -1,7 +1,8 @@
 import {Component, inject} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {CustomerService} from "../client/customer.service";
-import {Customer} from "../model/models";
+import {CustomerService} from "../customer.service";
+import {Customer} from "../../model/Customer";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-new-customer',
@@ -20,13 +21,8 @@ export class NewCustomerComponent {
     email: new FormControl("")
   });
 
-  addNewCustomer() {
-    this.newCustomer = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
-      email: new FormControl(null, [Validators.required, Validators.email])
-    })
-  }
-  constructor(private fb: FormBuilder) {
+
+  constructor(private fb : FormBuilder, private router : Router) {
     //this.addNewCustomer();
     this.newCustomer = this.fb.group({
       name: new FormControl("", [Validators.required, Validators.minLength(2)]),
@@ -37,11 +33,22 @@ export class NewCustomerComponent {
     let customer: Customer = this.newCustomer.value;
     this.customerService$.saveCustomer(customer).subscribe({
       next: data => {
+        this.router.navigateByUrl("/client").then(r => true);
         alert("customer has been saved")
       },error: err => {
         console.log(err);
       }
     });
+  }
+
+  toggleValidation() {
+    const control = this.newCustomer.controls['name'];
+    if (control.validator === Validators.required) {
+      control.clearValidators();
+    } else {
+      control.setValidators(Validators.required);
+    }
+    control.updateValueAndValidity();
   }
 
 }

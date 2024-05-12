@@ -1,0 +1,39 @@
+<div class="container-fluid mt-3">
+  @if (listAccounts().length > 0){
+    <div class="row">
+      <div class="col-md-1">
+        <h6>Veuillez cliquer sur le numero de compte pour des operations ou l'historique de chaque compte</h6>
+      </div>
+      @for (account of listAccounts(); track account.id) {
+        <div class="col-md-5 card me-1 mb-3 shadow-lg">
+          <label>Identifiant: <strong class="p-2">{{account.id}}</strong></label>
+          <label class="m-2 mt-2 ms-3">Balance du Compte: <h6>{{account.balance}}</h6></label>
+          <label class="ms-3">Date Création du Compte: <h6>{{account.createdate}}</h6></label>
+        </div>
+      }
+    </div>
+    <div class="row">
+      <div class="mt-5">
+        <h6 class="text-center">Historique des comptes</h6>
+      </div>
+      <div class="container">
+        <div class="card mt-3 container">
+          <div class="col-md-10 py-3">
+            <form >
+              <div class="input-group">
+                <label class="input-group-text"> Date Operation</label>
+                <input type="date" formControlName="dateHistory" class="form-control">
+                <button class="btn"><i class="bi bi-search"></i></button>
+              </div>
+            </form>
+          </div>
+          <div class="">
+            jadlad
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+  }
+</div>
+
